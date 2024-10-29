@@ -1,0 +1,60 @@
+﻿@model ImageToDb.Models.Image
+
+@{
+    ViewData["Title"] = "Edit";
+}
+
+@{
+    //Convert Byte to Base64Data
+    string imreBase64Data = Convert.ToBase64String(Model.Img);
+    //Img Url from Base64Data
+    string imgDataURL = string.Format("data:image/png;base64,{0}", imreBase64Data);
+}
+
+<h2>Edit</h2>
+
+<h4>Image</h4>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="Edit" enctype="multipart/form-data">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <input type="hidden" asp-for="ImageId" />
+
+            <div class="form-group">
+                <label asp-for="UploadedBy" class="control-label"></label>
+                <input asp-for="UploadedBy" name="uploadedBy" type="text" class="form-control" required="required" oninvalid="this.setCustomValidity('Enter Uploader's Name Here')"
+                       oninput="this.setCustomValidity('')" />
+             
+            </div>
+            <div class="form-group">
+                <label asp-for="ImageDesc" class="control-label"></label>
+                <input asp-for="ImageDesc" name="imageDesc" type="text" class="form-control" required="required" oninvalid="this.setCustomValidity('Enter Image Description Here')"
+                       oninput="this.setCustomValidity('')" />
+             
+            </div>
+            <div class="form-group">
+                <label class="control-label">Current Image</label>
+                <img src="@imgDataURL" class="img-responsive" />
+            </div>
+            <div class="form-group">
+                <label asp-for="Img" class="control-label"></label>
+                <input name="resim" type="file" class="form-control" required="required" oninvalid="this.setCustomValidity('Select a file')"
+                       oninput="this.setCustomValidity('')" />
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Save" class="btn btn-default" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-action="Index">Back to List</a>
+</div>
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+}

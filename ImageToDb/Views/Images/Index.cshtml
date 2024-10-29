@@ -1,0 +1,58 @@
+﻿@model IEnumerable<ImageToDb.Models.Image>
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+<h2>Index</h2>
+
+<p>
+    <a asp-action="Create">Create New</a>
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.Img)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.UploadedBy)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.ImageDesc)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.CreatedDate)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @{
+                        string imreBase64Data = Convert.ToBase64String(item.Img);
+                        string imgDataURL = string.Format("data:image/png;base64,{0}", imreBase64Data);
+                    }
+                    <img src="@imgDataURL" class="img-responsive" width="250" />
+                </td>
+                <td>
+                    @item.UploadedBy
+                </td>
+                <td>
+                    @item.ImageDesc
+                </td>
+                <td>
+                    @item.CreatedDate
+                </td>
+                <td>
+                    <a asp-action="Edit" asp-route-id="@item.ImageId">Edit</a> |
+                    <a asp-action="Details" asp-route-id="@item.ImageId">Details</a> |
+                    <a asp-action="Delete" asp-route-id="@item.ImageId">Delete</a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
